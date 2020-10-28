@@ -52,7 +52,7 @@ export default function Register() {
                   </InputGroup>
                   <div className="mb-3">
                     <div>
-                      Date Of Birth <DatePicker showPopperArrow={false} placeholderText="Select Date" selected={DOB} onChange={date => setDOB(date)} />
+                      Date Of Birth <DatePicker showPopperArrow={false} placeholderText="Select Date" selected={DOB} onChange={date => setDOB(date)} showYearDropdown showMonthDropdown />
                     </div>
                   </div>
                   <InputGroup className="mb-4"><input type="file" onChange={(e) => { setSelectedFile(e.target.files[0]); }} /> </InputGroup>
