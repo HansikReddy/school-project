@@ -5,7 +5,7 @@ import Reg from './Reg';
 import Dashboard from './Dashboard';
 import Axios from "axios";
 import { useHistory } from "react-router-dom";
-
+import Upload from './UploadImage'
 import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom';
 
 function App() {
@@ -61,6 +61,7 @@ function App() {
 									: null
 								}
 							</li>
+							<li className="nav-item"> <Link to={'/Upload'} className="nav-link">Upload Image</Link> </li>
 						</ul>
 						<div className="App">
 						</div>
@@ -69,6 +70,7 @@ function App() {
 				<Switch>
 					<Route exact path='/Login' component={Login} />
 					<Route path='/Signup' component={Reg} />
+					<Route path='/Upload' component={Upload} />
 				</Switch>
 				<Switch>
 					<Route path='/Dashboard' component={Dashboard} />

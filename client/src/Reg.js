@@ -30,15 +30,8 @@ export default function Register() {
   const validNumber = RegExp(/^[0-9\b]+$/);
 
   const register = () => {
-    alert(isFormValid)
-    console.log(firstName)
-    console.log(parentName)
-    console.log(parentContactNumber)
-    console.log(email)
-    console.log(password)
-    console.log(DOB)
     if (firstName.length <= 0 || parentName.length <= 0 || parentContactNumber.length <= 0 || email.length <= 0 || password.length <= 0 || DOB == null) {
-      alert("Please enter proper form details !!!")
+      alert("Please enter the required fields !!!")
       return;
     } else {
       Axios.post("http://localhost:3001/register", {
@@ -162,7 +155,7 @@ export default function Register() {
                     </InputGroup>
                   </div>
 
-                  <InputGroup className="mb-4">Upload your Photo <input type="file" onChange={handleChange} /> </InputGroup>
+                  <InputGroup className="mb-4">Upload your Photo <input type="file" onChange={(e) => { setSelectedFile(e.target.files[0]); }} /> </InputGroup>
                   
                   {setParentNameError.length > 0 ? <span className='error'>{parentNameError}</span> : null}
                   <InputGroup className="mb-4">Parent/Guardian Name <div class="required-field"></div> &nbsp;

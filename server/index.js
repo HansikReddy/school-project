@@ -1,6 +1,8 @@
 const express = require("express");
 const mysql = require("mysql");
 const cors = require("cors");
+const path = require("path");
+const multer = require("multer");
 
 const bodyParser = require("body-parser");
 const cookieParser = require("cookie-parser");
@@ -10,6 +12,8 @@ const bcrypt = require("bcrypt");
 const saltRounds = 10;
 
 const app = express();
+
+
 
 app.use(express.json());
 app.use(
@@ -38,9 +42,11 @@ app.use(
 const db = mysql.createConnection({
 	user: "root",
 	host: "localhost",
-	password: "dost1234",
+	password: "12345",
 	database: "school",
 });
+
+
 
 app.post("/register", (req, res) => {
 	const firstName = req.body.firstName;
@@ -108,9 +114,33 @@ app.post("/login", (req, res) => {
 app.get("/logout", (req, res) => {
 	if (req.session.user) {
 		req.session.destroy(function (err) {
-			res.redirect('/'); //Inside a callback… bulletproof!
+			res.redirect('/'); //Inside a callbackï¿½ bulletproof!
 		});
 	}
+});
+
+
+const storage = multer.diskStorage({
+    destination: function (req, file, cb) {
+        cb(null, 'assets/uploads')
+    },
+    filename: function (req, file, cb) {
+        // You could rename the file name
+        // cb(null, file.fieldname + '-' + Date.now() + path.extname(file.originalname))
+
+        // You could use the original name
+        cb(null, file.originalname)
+    }
+});
+
+var upload = multer({storage: storage})
+
+// Upload Image
+app.post("/upload", upload.single('photo'), (req, res, next) => {
+	console.log("Inside Upload API ")
+    return res.json({
+        image: req.file.path
+    });
 });
 
 app.listen(3001, () => {
