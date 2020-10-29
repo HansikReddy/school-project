@@ -54,3 +54,19 @@ ul,li {
   margin:0;
   padding:0;
   }
+
+  .error {
+    color:#db2269;
+    font-size: 0.900em;
+    display: relative;
+  }
+
+  .fullName {
+    margin-right: 1%;
+  }
+
+  .required-field::before {
+    content: "*";
+    color: red;
+    float: right;
+  }
