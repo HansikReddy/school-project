@@ -24,6 +24,7 @@ export default function Register() {
   const [parentContactNumberError, setParentContactNumberError] = useState("");
   const [emailError, setEmailError] = useState("");
   const [passwordError, setPasswordError] = useState("");
+  const [confirmPasswordError, setConfirmPasswordError] = useState("");
   const [DOBError, setDOBError] = useState("");
   const [selectedFileError, setSelectedFileError] = useState("");
   const validEmailRegex = RegExp(/^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i);
@@ -116,7 +117,15 @@ export default function Register() {
           setPasswordError('');
           setPassword(value)
         }
+        
         break;
+        case 'password1':
+          if(password != value){
+            setConfirmPasswordError('Password and confirm should be same')
+          }else{
+            setConfirmPasswordError('');
+          }
+          break;
       default:
         break;
     }
@@ -175,6 +184,11 @@ export default function Register() {
                   {setPasswordError.length > 0 ? <span className='error'>{passwordError}</span> : null}
                   <InputGroup className="mb-4">Enter your Password <div class="required-field"></div> &nbsp;
                     <Input name="password" type="password" onChange={handleChange} />
+                  </InputGroup>
+
+                  {setConfirmPasswordError.length > 0 ? <span className='error'>{confirmPasswordError}</span> : null}
+                  <InputGroup className="mb-4">Confirm your Password <div class="required-field"></div> &nbsp;
+                    <Input name="password1" type="password" onChange={handleChange} />
                   </InputGroup>
                   <Button onClick={register} color="success" block>Create Account</Button>
                 </Form>

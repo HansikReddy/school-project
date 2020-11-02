@@ -1,8 +1,12 @@
+
+const lib = require('./forgot.js');
+const { sendEmail } = require("./emailer");
 const express = require("express");
 const mysql = require("mysql");
 const cors = require("cors");
 const path = require("path");
 const multer = require("multer");
+const nodemailer=require("nodemailer");
 
 const bodyParser = require("body-parser");
 const cookieParser = require("cookie-parser");
@@ -14,6 +18,15 @@ const saltRounds = 10;
 const app = express();
 
 
+const randomString=length=>{
+    let text="";
+    const possible="abcdefghijklmnopqrstuvwxyz0123456789_-.";
+    for(let i=0;i<length;i++){
+        text+=possible.charAt(Math.floor(Math.random()*possible.length));
+
+    }
+    return text;
+}
 
 app.use(express.json());
 app.use(
@@ -142,6 +155,32 @@ app.post("/upload", upload.single('photo'), (req, res, next) => {
         image: req.file.path
     });
 });
+
+app.post('/api/forgotpass',(req,res)=>{
+    if(!req.body)return res.status(400).json({message:'No Request Body'});
+    if(!req.body.email)return res.status(400).json({message:'No Email in Request Body'});
+	console.log("Inside Forgot Passowrd Method")
+	const token= randomString(40);
+	console.log("Token "+token)
+    const emailData={
+        to:req.body.email,
+        subject:"Password Reset Instructions",
+        text:'Please use the following link for instructions to reset your password: http:localhost:3000/Signup',
+        html:'<p>Please use the link below for instructions to reset your password,</p><p>http:localhost:3000/Signup</p>',
+	};
+	
+	sendEmail(emailData);
+        return res.status(200).json({message:'Email has been sent to $(req.body.email}'});``
+
+    // return User
+    // .update({email:req.body.email},{$set:{resetPasslink: token}},function(error,feedback){
+    // if(error) return res.send(error);
+    // else{
+    //     sendEmail(emailData);
+    //     return res.status(200).json({message:'Email has been sent to $(req.body.email}'});``
+    // }
+    // })
+})
 
 app.listen(3001, () => {
 	console.log("running server");
