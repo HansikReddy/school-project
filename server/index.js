@@ -1,12 +1,8 @@
-
-const lib = require('./forgot.js');
 const { sendEmail } = require("./emailer");
 const express = require("express");
 const mysql = require("mysql");
 const cors = require("cors");
-const path = require("path");
 const multer = require("multer");
-const nodemailer=require("nodemailer");
 
 const bodyParser = require("body-parser");
 const cookieParser = require("cookie-parser");
@@ -17,13 +13,11 @@ const saltRounds = 10;
 
 const app = express();
 
-
 const randomString=length=>{
     let text="";
     const possible="abcdefghijklmnopqrstuvwxyz0123456789_-.";
     for(let i=0;i<length;i++){
         text+=possible.charAt(Math.floor(Math.random()*possible.length));
-
     }
     return text;
 }
@@ -55,11 +49,9 @@ app.use(
 const db = mysql.createConnection({
 	user: "root",
 	host: "localhost",
-	password: "12345",
+	password: "dost1234",
 	database: "school",
 });
-
-
 
 app.post("/register", (req, res) => {
 	const firstName = req.body.firstName;
@@ -69,7 +61,6 @@ app.post("/register", (req, res) => {
 	const parentName = req.body.parentName;
 	const parentContactNumber = req.body.parentContactNumber;
 	const DOB = req.body.DOB;
-
 	bcrypt.hash(password, saltRounds, (err, hash) => {
 		if (err) {
 			console.log(err);
@@ -127,11 +118,85 @@ app.post("/login", (req, res) => {
 app.get("/logout", (req, res) => {
 	if (req.session.user) {
 		req.session.destroy(function (err) {
-			res.redirect('/'); //Inside a callback� bulletproof!
+			res.redirect('/');
 		});
 	}
 });
 
+app.get("/students", (req, res) => {
+	db.query(
+		"SELECT * FROM users ;",
+		(err, result) => {
+			if (err) {
+				res.send({ err: err });
+			}
+			if (result.length > 0) {
+				var results = [];
+				result.forEach(function (row) {
+					results.push({
+						FIRST_NAME: row["FIRST_NAME"],
+						LAST_NAME: row["LAST_NAME"],
+						EMAIL: row["EMAIL"],
+						DOB: row["DOB"],
+						PARENT_NAME: row["PARENT_NAME"],
+						PARENT_CONTACT_NO: row["PARENT_CONTACT_NO"],
+						EDIT: "<a class='btn btn-info btn-sm' href=UpdateStudent?id=" + row["ID"] + "> EDIT </a> &nbsp; <a class='btn btn-danger btn-sm' href=UpdateStudent?id=" + row["ID"] +"> DELETE </a>"
+					})
+				})
+				res.send(results)
+			} else {
+				res.send({ message: "No data found, Please try again !!!" });
+			}
+		}
+	);
+});
+
+app.get("/getStudentDetails", (req, res) => {
+	const studentId = req.query.studentId;
+	db.query(
+		"SELECT * FROM users WHERE ID = ?;",
+		studentId,
+		(err, result) => {
+			if (err) {
+				res.send({ err: err });
+			}
+			if (result.length > 0) {
+				var studentObject = {
+					FIRST_NAME: result[0]["FIRST_NAME"],
+					LAST_NAME: result[0]["LAST_NAME"],
+					EMAIL: result[0]["EMAIL"],
+					DOB: result[0]["DOB"],
+					PARENT_NAME: result[0]["PARENT_NAME"],
+					PARENT_CONTACT_NO: result[0]["PARENT_CONTACT_NO"],
+					ID: result[0]["ID"]
+				}
+				res.send(studentObject)
+			} else {
+				res.send({ message: "No data found, Please try again !!!" });
+			}
+		}
+	);
+});
+
+app.post("/updateStudent", (req, res) => {
+	const studentId = req.query.studentId;
+	const firstName = req.body.firstName;
+	const lastName = req.body.lastName;
+	const email = req.body.email;
+	const parentName = req.body.parentName;
+	const parentContactNumber = req.body.parentContactNumber;
+	const DOB = req.body.DOB;
+	db.query(
+		"UPDATE users SET  FIRST_NAME = ?, LAST_NAME = ?, EMAIL = ?, PARENT_NAME = ?, PARENT_CONTACT_NO = ?, DOB = ? WHERE ID = ?",
+		[firstName, lastName, email, parentName, parentContactNumber, new Date(DOB), studentId],
+		(err, result) => {
+			if (err) {
+				console.log(err);
+			}
+			res.send(result)
+		}
+	);
+});
 
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {
@@ -140,7 +205,6 @@ const storage = multer.diskStorage({
     filename: function (req, file, cb) {
         // You could rename the file name
         // cb(null, file.fieldname + '-' + Date.now() + path.extname(file.originalname))
-
         // You could use the original name
         cb(null, file.originalname)
     }
@@ -148,7 +212,6 @@ const storage = multer.diskStorage({
 
 var upload = multer({storage: storage})
 
-// Upload Image
 app.post("/upload", upload.single('photo'), (req, res, next) => {
 	console.log("Inside Upload API ")
     return res.json({
@@ -159,7 +222,7 @@ app.post("/upload", upload.single('photo'), (req, res, next) => {
 app.post('/api/forgotpass',(req,res)=>{
     if(!req.body)return res.status(400).json({message:'No Request Body'});
     if(!req.body.email)return res.status(400).json({message:'No Email in Request Body'});
-	console.log("Inside Forgot Passowrd Method")
+	console.log("Inside Forgot Password Method")
 	const token= randomString(40);
 	console.log("Token "+token)
     const emailData={
@@ -168,18 +231,8 @@ app.post('/api/forgotpass',(req,res)=>{
         text:'Please use the following link for instructions to reset your password: http:localhost:3000/Signup',
         html:'<p>Please use the link below for instructions to reset your password,</p><p>http:localhost:3000/Signup</p>',
 	};
-	
 	sendEmail(emailData);
-        return res.status(200).json({message:'Email has been sent to $(req.body.email}'});``
-
-    // return User
-    // .update({email:req.body.email},{$set:{resetPasslink: token}},function(error,feedback){
-    // if(error) return res.send(error);
-    // else{
-    //     sendEmail(emailData);
-    //     return res.status(200).json({message:'Email has been sent to $(req.body.email}'});``
-    // }
-    // })
+    return res.status(200).json({message:'Email has been sent to $(req.body.email}'});
 })
 
 app.listen(3001, () => {

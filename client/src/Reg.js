@@ -1,12 +1,11 @@
-import React, { Component, useState } from 'react';
-import { Button, Card, CardFooter, CardBody, CardGroup, Col, Container, Form, Input, InputGroup, InputGroupAddon, InputGroupText, Row } from 'reactstrap';
+import React, { useState } from 'react';
+import { Button, Card, CardBody,  Col, Container, Form, Input, InputGroup,  Row } from 'reactstrap';
 import Axios from "axios";
 import DatePicker from "react-datepicker";
 
 import "react-datepicker/dist/react-datepicker.css";
 
 export default function Register() {
-  const [errors, setErrors] = useState("")
 
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
@@ -26,7 +25,6 @@ export default function Register() {
   const [passwordError, setPasswordError] = useState("");
   const [confirmPasswordError, setConfirmPasswordError] = useState("");
   const [DOBError, setDOBError] = useState("");
-  const [selectedFileError, setSelectedFileError] = useState("");
   const validEmailRegex = RegExp(/^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i);
   const validNumber = RegExp(/^[0-9\b]+$/);
 
@@ -53,7 +51,6 @@ export default function Register() {
   const handleChange = (event) => {
     event.preventDefault();
     const { name, value } = event.target;
-    let errors = setErrors;
     switch (name) {
       case 'firstname':
         if (value.length < 3) {
@@ -143,10 +140,10 @@ export default function Register() {
             <Card className="mx-4">
               <CardBody className="p-4">
                 <Form>
-                  <div class="row" className="mb-2 pageheading">
-                    <div class="col-sm-12 btn btn-primary">
+                  <div className="row" className="mb-2 pageheading">
+                    <div className="col-sm-12 btn btn-primary">
                       Sign Up
-                      </div>
+                     </div>
                   </div>
                   {setFirstNameError.length > 0 ? <span className='error'>{firstNameError}</span> : null}
                   <InputGroup className="mb-3">Enter your first Name <div class="required-field"></div> &nbsp;

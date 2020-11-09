@@ -8,8 +8,6 @@ import Modal from "react-modal";
 
 import { Button, Card, CardBody, CardGroup, Col, Container, Form, Input, InputGroup, InputGroupAddon, InputGroupText, Row } from 'reactstrap';
 
-import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom';
-
 export default function Login() {
 
 	const history = useHistory();

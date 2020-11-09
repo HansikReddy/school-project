@@ -6,6 +6,8 @@ import Dashboard from './Dashboard';
 import Axios from "axios";
 import { useHistory } from "react-router-dom";
 import Upload from './UploadImage'
+import StudentsList from './StudentsList'
+import UpdateStudent from './UpdateStudent'
 import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom';
 
 function App() {
@@ -18,7 +20,7 @@ function App() {
 
 	useEffect(() => {
 		Axios.get("http://localhost:3001/login").then((response) => {
-			if (response.data.loggedIn == true) {
+			if (response.data.loggedIn === true) {
 				setLoggedInUserFulName(response.data.user.loggedInUserFullName)
 				setLoginStatus(true)
 			} else {
@@ -62,6 +64,7 @@ function App() {
 								}
 							</li>
 							<li className="nav-item"> <Link to={'/Upload'} className="nav-link">Upload Image</Link> </li>
+							<li className="nav-item"> <Link to={'/StudentsList'} className="nav-link">Students List</Link> </li>
 						</ul>
 						<div className="App">
 						</div>
@@ -71,9 +74,11 @@ function App() {
 					<Route exact path='/Login' component={Login} />
 					<Route path='/Signup' component={Reg} />
 					<Route path='/Upload' component={Upload} />
+					<Route path='/StudentsList' component={StudentsList} />
 				</Switch>
 				<Switch>
 					<Route path='/Dashboard' component={Dashboard} />
+					<Route path='/UpdateStudent' component={UpdateStudent} />
 				</Switch>
 			</div>
 		</Router>

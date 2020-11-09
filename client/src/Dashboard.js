@@ -1,7 +1,6 @@
-import React, { Component, useState, useEffect } from 'react';
+import React, {useEffect } from 'react';
 import './App.css';
 import Axios from "axios";
-import { Button, Card, CardBody, CardGroup, Col, Container, Form, Input, InputGroup, InputGroupAddon, InputGroupText, Row } from 'reactstrap';
 import { useHistory } from "react-router-dom";
 
 export default function Login() {
