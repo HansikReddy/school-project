@@ -27,6 +27,11 @@ export default function Login() {
 
 	const login = () => {
 
+		if (email.length <= 0 || password.length <= 0) {
+			alert("Please Enter The Email Id and Password And Try Again !!!")
+			return;
+		}
+
 		Axios.post("http://localhost:3001/login", {
 			email: email,
 			password: password
@@ -39,7 +44,6 @@ export default function Login() {
 	};
 
 	useEffect(() => {
-		//loadScript("http://localhost:3000/App");
 		Axios.get("http://localhost:3001/login").then((response) => {
 			console.log("Logged In " + response.data.loggedIn)
 			if (response.data.loggedIn == true) {
@@ -66,30 +70,21 @@ export default function Login() {
 		const { name, value } = event.target;
 		let errors = setErrors;
 		switch (name) {
-			case 'fullName':
-				errors.fullName =
-					value.length < 5
-						? setEmailError('Full Name must be 5 characters long!')
-						: setEmailError("");
-				break;
 			case 'email':
-				errors.email =
-					validEmailRegex.test(value)
-						? setEmailError("")
-						: setEmailError('Email is not valid!');
+				if (validEmailRegex.test(value)) {
+					setEmailError("")
+					setEmail(value)
+				} else {
+					setEmailError("Please enter a valid Email");
+				}
 				break;
 			case 'password':
-				errors.password =
-					value.length < 8
-						? setPasswordError('Password must be 8 characters long!')
-						: setPasswordError('');
-				break;
-			case 'passwordResetEmail':
-				// errors.email =
-				// 	validEmailRegex.test(value)
-				// 		? setEmailError("")
-				// 		: setEmailError('Email is not valid!');
-				setresetPasswordEmail(value)
+				if (value.length < 8) {
+					setPasswordError("Password must be 8 characters long!")
+				} else {
+					setPasswordError('');
+					setPassword(value)
+				}
 				break;
 			default:
 				break;
