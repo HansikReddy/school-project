@@ -5,6 +5,8 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import 'jquery/dist/jquery.min.js';
 import "datatables.net-dt/js/dataTables.dataTables"
 import "datatables.net-dt/css/jquery.dataTables.min.css"
+import BootBox from 'react-bootbox';
+
 import $ from 'jquery';
 
 class StudentsList extends React.Component {
@@ -13,8 +15,23 @@ class StudentsList extends React.Component {
         super(props);
         this.state = {
             students: [],
-            loading: true
+            loading: true,
+            show: false
         };
+        this.handleClose.bind(this);
+    }
+
+    showAlert = () => {
+        alert('Yes is clicked');
+    }
+
+    /*handleClose = () => {
+        
+    }*/
+
+    handleClose = function () {
+        alert("Check")
+        this.setState({ show: false })
     }
 
     async getStudentsData() {
@@ -28,6 +45,10 @@ class StudentsList extends React.Component {
 
     redirectCall() {
         alert("Sheik")
+    }
+
+    alertFunction = function () {
+        alert("Check");
     }
 
     syncTable() {
@@ -55,8 +76,15 @@ class StudentsList extends React.Component {
 
                 <div className="container">
                     <table id="studentsList" className="display" ref={(el) => (this.el = el)}>
+                     
                     </table>
                 </div>
+                <BootBox
+                    message="Do you want to Continue?"
+                    show={this.state.show}
+                    onYesClick={this.showAlert}
+                    onNoClick={this.handleClose}
+                    onClose={this.handleClose} />
             </div>
         );     
     }

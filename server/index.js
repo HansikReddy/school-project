@@ -86,6 +86,7 @@ app.get("/login", (req, res) => {
 app.post("/login", (req, res) => {
 	const email = req.body.email;
 	const password = req.body.password;
+	console.log(email);
 	db.query(
 		"SELECT * FROM users WHERE EMAIL = ?;",
 		email,
@@ -140,7 +141,7 @@ app.get("/students", (req, res) => {
 						DOB: row["DOB"],
 						PARENT_NAME: row["PARENT_NAME"],
 						PARENT_CONTACT_NO: row["PARENT_CONTACT_NO"],
-						EDIT: "<a class='btn btn-info btn-sm' href=UpdateStudent?id=" + row["ID"] + "> EDIT </a> &nbsp; <a class='btn btn-danger btn-sm' href=UpdateStudent?id=" + row["ID"] +"> DELETE </a>"
+						EDIT: "<a class='btn btn-info btn-sm' href=UpdateStudent?id=" + row["ID"] + "> EDIT </a> &nbsp; <button class='btn btn-danger btn-sm' onClick={this.showAlert}> DELETE </button>"
 					})
 				})
 				res.send(results)

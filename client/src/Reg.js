@@ -156,8 +156,8 @@ export default function Register() {
                   </InputGroup>
 
                   <div className="mb-3">
-                    <InputGroup className="mb-3"> Select Date of Birth <div class="required-field"></div> &nbsp;
-                    <DatePicker name="DOB" showPopperArrow={false} placeholderText="Select Date" selected={DOB} onChange={date => setDOB(date)} showYearDropdown showMonthDropdown />
+                                      <InputGroup className="mb-3"> Select Date of Birth <div class="required-field"></div> &nbsp;
+                    <DatePicker name="DOB" showPopperArrow={false} placeholderText="Select Date" selected={DOB} onChange={date => setDOB(date)} showYearDropdown showMonthDropdown minDate={new Date().setFullYear(new Date().getFullYear() - 25)} maxDate={new Date()} showDisabledMonthNavigation />
                     </InputGroup>
                   </div>
 
