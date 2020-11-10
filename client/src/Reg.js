@@ -7,46 +7,60 @@ import "react-datepicker/dist/react-datepicker.css";
 
 export default function Register() {
 
-  const [firstName, setFirstName] = useState("");
-  const [lastName, setLastName] = useState("");
-  const [parentName, setParentName] = useState("");
-  const [parentContactNumber, setParentContactNumber] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [DOB, setDOB] = useState("");
-  const [selectedFile, setSelectedFile] = useState("");
+    const [firstName, setFirstName] = useState("");
+    const [lastName, setLastName] = useState("");
+    const [parentName, setParentName] = useState("");
+    const [parentContactNumber, setParentContactNumber] = useState("");
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
+    const [DOB, setDOB] = useState("");
+    const [selectedFile, setSelectedFile] = useState("");
 
-  const [isFormValid, setIsFormValid] = useState(false);
-  const [firstNameError, setFirstNameError] = useState("");
-  const [lastNameError, setLastNameError] = useState("");
-  const [parentNameError, setParentNameError] = useState("");
-  const [parentContactNumberError, setParentContactNumberError] = useState("");
-  const [emailError, setEmailError] = useState("");
-  const [passwordError, setPasswordError] = useState("");
-  const [confirmPasswordError, setConfirmPasswordError] = useState("");
-  const [DOBError, setDOBError] = useState("");
-  const validEmailRegex = RegExp(/^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i);
-  const validNumber = RegExp(/^[0-9\b]+$/);
+    const [isFormValid, setIsFormValid] = useState(false);
+    const [firstNameError, setFirstNameError] = useState("");
+    const [lastNameError, setLastNameError] = useState("");
+    const [parentNameError, setParentNameError] = useState("");
+    const [parentContactNumberError, setParentContactNumberError] = useState("");
+    const [emailError, setEmailError] = useState("");
+    const [passwordError, setPasswordError] = useState("");
+    const [confirmPasswordError, setConfirmPasswordError] = useState("");
+    const [DOBError, setDOBError] = useState("");
+    const validEmailRegex = RegExp(/^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i);
+    const validNumber = RegExp(/^[0-9\b]+$/);
 
-  const register = () => {
-    if (firstName.length <= 0 || parentName.length <= 0 || parentContactNumber.length <= 0 || email.length <= 0 || password.length <= 0 || DOB == null) {
-      alert("Please enter the required fields !!!")
-      return;
-    } else {
-      Axios.post("http://localhost:3001/register", {
-        email: email,
-        password: password,
-        firstName: firstName,
-        lastName: lastName,
-        parentName: parentName,
-        parentContactNumber: parentContactNumber,
-        DOB: DOB,
-        selectedFile: selectedFile
-      }).then((response) => {
-        console.log(response);
-      });
+    const register = () => {
+        if (firstName.length <= 0 || parentName.length <= 0 || parentContactNumber.length <= 0 || email.length <= 0 || password.length <= 0 || DOB == null) {
+            alert("Please enter the required fields !!!")
+            return;
+        } else {
+            Axios.post("http://localhost:3001/register", {
+                email: email,
+                password: password,
+                firstName: firstName,
+                lastName: lastName,
+                parentName: parentName,
+                parentContactNumber: parentContactNumber,
+                DOB: DOB,
+                selectedFile: selectedFile
+            }).then((response) => {
+                console.log(response);
+            });
+        }
+    };
+
+    const dateOfBirthValidator = (selectedDate) => {
+        if (selectedDate != null && selectedDate != undefined) {
+            var selectedDOB = new Date(selectedDate);
+            var today = new Date();
+            if ((today.getFullYear() - selectedDOB.getFullYear()) <= 5) {
+                setDOB(null)
+                setDOBError("Minimum of 5 years is required for registration");
+            } else {
+                setDOBError("");
+                setDOB(selectedDate)
+            }
+        }
     }
-  };
 
   const handleChange = (event) => {
     event.preventDefault();
@@ -114,7 +128,6 @@ export default function Register() {
           setPasswordError('');
           setPassword(value)
         }
-        
         break;
         case 'password1':
           if(password != value){
@@ -155,9 +168,10 @@ export default function Register() {
                     <Input name="lastname" type="text" onChange={handleChange} />
                   </InputGroup>
 
-                  <div className="mb-3">
+                                  <div className="mb-3">
+                                      {setDOBError.length > 0 ? <span className='error'>{DOBError}</span> : null}
                                       <InputGroup className="mb-3"> Select Date of Birth <div class="required-field"></div> &nbsp;
-                    <DatePicker name="DOB" showPopperArrow={false} placeholderText="Select Date" selected={DOB} onChange={date => setDOB(date)} showYearDropdown showMonthDropdown minDate={new Date().setFullYear(new Date().getFullYear() - 25)} maxDate={new Date()} showDisabledMonthNavigation />
+                    <DatePicker name="DOB" showPopperArrow={false} placeholderText="Select Date" selected={DOB} onChange={ date => dateOfBirthValidator(date)} showYearDropdown showMonthDropdown minDate={new Date().setFullYear(new Date().getFullYear() - 25)} maxDate={new Date()} showDisabledMonthNavigation />
                     </InputGroup>
                   </div>
 
