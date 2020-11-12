@@ -52,7 +52,7 @@ export default function Register() {
         if (selectedDate != null && selectedDate != undefined) {
             var selectedDOB = new Date(selectedDate);
             var today = new Date();
-            if ((today.getFullYear() - selectedDOB.getFullYear()) <= 5) {
+            if ((today.getFullYear() - selectedDOB.getFullYear()) <= 4) {
                 setDOB(null)
                 setDOBError("Minimum of 5 years is required for registration");
             } else {
