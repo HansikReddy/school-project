@@ -1,12 +1,11 @@
-import React, { Component, useState, useEffect } from 'react';
+﻿import React, { useState, useEffect } from 'react';
+import { toast } from 'react-toastify';
 import './App.css';
 import Axios from "axios";
 import { useHistory } from "react-router-dom";
-import ReactDOM from 'react-dom'
-import App from './App'
 import Modal from "react-modal";
 
-import { Button, Card, CardBody, CardGroup, Col, Container, Form, Input, InputGroup, InputGroupAddon, InputGroupText, Row } from 'reactstrap';
+import { Button, Card, CardBody, CardGroup, Col, Container, Form, Input, InputGroup, Row } from 'reactstrap';
 
 export default function Login() {
 
@@ -28,7 +27,7 @@ export default function Login() {
 	const login = () => {
 
 		if (email.length <= 0 || password.length <= 0) {
-			alert("Please Enter The Email Id and Password And Try Again !!!")
+			toast.error("🦄 Please Enter The Email Id and Password, Then Try Again");
 			return;
 		}
 
@@ -36,6 +35,7 @@ export default function Login() {
 			email: email,
 			password: password
 		}).then((response) => {
+			toast.success("🦄 Logged In Successfully !!!");
 			if (response.data.message) {
 				setLoginStatus(response.data.message);
 			}
@@ -45,9 +45,7 @@ export default function Login() {
 
 	useEffect(() => {
 		Axios.get("http://localhost:3001/login").then((response) => {
-			console.log("Logged In " + response.data.loggedIn)
 			if (response.data.loggedIn == true) {
-				console.log(response)
 				setLoginStatus(response.data.user.loggedInUserFullName);
 			}
 		});
@@ -92,7 +90,6 @@ export default function Login() {
 	};
 
 	return (
-
 		<div className="app flex-row align-items-center">
 			<Container>
 				<Row className="justify-content-center">
@@ -103,7 +100,7 @@ export default function Login() {
 									<Form>
 										<div className="row" className="mb-2 pageheading">
 											<div className="col-sm-12 btn btn-primary">
-												Login
+												Login Credentials
                                             </div>
 										</div>
 										{setEmailError.length > 0 ? <span className='error'>{emailError}</span> : null}
@@ -115,7 +112,7 @@ export default function Login() {
 											<Input type="password" name="password" onChange={handleChange} placeholder="Enter Password" />
 										</InputGroup>
 										<p>Forgot Password? click <a onClick={toggleModal} href="#">here</a> to reset</p>
-										<Button onClick={login} color="success" block>Login</Button>
+										<Button onClick={login} color="success" block>LOGIN</Button>
 									</Form>
 								</CardBody>
 							</Card>

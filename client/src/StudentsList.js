@@ -73,10 +73,8 @@ class StudentsList extends React.Component {
                 <div className="jumbotron text-center bg-sky">
                     <h3>Students List</h3>
                 </div>
-
                 <div className="container">
                     <table id="studentsList" className="display" ref={(el) => (this.el = el)}>
-                     
                     </table>
                 </div>
                 <BootBox

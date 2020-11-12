@@ -167,7 +167,7 @@ export default function Register() {
 								<Form>
 									<div className="row" className="mb-2 pageheading">
 										<div className="col-sm-12 btn btn-primary">
-											Sign Up
+											Student Details
 										</div>
 									</div>
 									{setFirstNameError.length > 0 ? <span className='error'>{firstNameError}</span> : null}
@@ -201,7 +201,7 @@ export default function Register() {
 										 <Input name="email" type="email" onChange={handleChange} value={email} />
 									</InputGroup>
 
-									<Button onClick={register} color="success" block>Create Account</Button>
+									<Button onClick={register} color="success" block>UPDATE</Button>
 								</Form>
 							</CardBody>
 						</Card>
