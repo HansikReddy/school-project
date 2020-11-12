@@ -56,6 +56,7 @@ class StudentsList extends React.Component {
         this.$el.DataTable({
             data: this.state.students,
             columns: [
+                { title: "#", data: "SL"},
                 { title: "First Name", data: "FIRST_NAME" },
                 { title: "Last Name", data: "LAST_NAME" },
                 { title: "Email Id", data: "EMAIL" },
@@ -69,14 +70,14 @@ class StudentsList extends React.Component {
 
     render() {
         return (
-            <div className="MainDiv">
+            <div className="container" style={{ 'max-width': '1400px' }}>
                 <div className="jumbotron text-center bg-sky">
                     <h3>Students List</h3>
                 </div>
-                <div className="container">
+                
                     <table id="studentsList" className="display" ref={(el) => (this.el = el)}>
                     </table>
-                </div>
+                
                 <BootBox
                     message="Do you want to Continue?"
                     show={this.state.show}

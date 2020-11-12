@@ -86,7 +86,6 @@ app.get("/login", (req, res) => {
 app.post("/login", (req, res) => {
 	const email = req.body.email;
 	const password = req.body.password;
-	console.log(email);
 	db.query(
 		"SELECT * FROM users WHERE EMAIL = ?;",
 		email,
@@ -94,23 +93,24 @@ app.post("/login", (req, res) => {
 			if (err) {
 				res.send({ err: err });
 			}
-
 			if (result.length > 0) {
 				bcrypt.compare(password, result[0].PASSWORD, (error, response) => {
 					if (response) {
 						var userObject = {
 							loggedInUserFullName: result[0].FIRST_NAME + " " + result[0].LAST_NAME,
 							loggedInUserEmail: result[0].EMAIL,
-							loggedInUserId: result[0].ID
+							loggedInUserId: result[0].ID,
+							message: "Logged-In Successfully !!!"
 						}
 						req.session.user = userObject;
-						res.send(userObject);
+						//res.send(userObject);
+						return res.status(200).json(userObject);
 					} else {
-						res.send({ message: "Wrong username/password combination!" });
+						return res.status(403).json({ message: 'Please Enter Valid Email Id / Password And Try Again' });
 					}
 				});
 			} else {
-				res.send({ message: "User doesn't exist" });
+				return res.status(403).json({ message: 'Please Enter Valid Email Id / Password And Try Again' });
 			}
 		}
 	);
@@ -133,8 +133,10 @@ app.get("/students", (req, res) => {
 			}
 			if (result.length > 0) {
 				var results = [];
+				var count = 1;
 				result.forEach(function (row) {
 					results.push({
+						SL: count,
 						FIRST_NAME: row["FIRST_NAME"],
 						LAST_NAME: row["LAST_NAME"],
 						EMAIL: row["EMAIL"],
@@ -143,6 +145,7 @@ app.get("/students", (req, res) => {
 						PARENT_CONTACT_NO: row["PARENT_CONTACT_NO"],
 						EDIT: "<a class='btn btn-info btn-sm' href=UpdateStudent?id=" + row["ID"] + "> EDIT </a> &nbsp; <button class='btn btn-danger btn-sm' onClick={this.showAlert}> DELETE </button>"
 					})
+					count++;
 				})
 				res.send(results)
 			} else {

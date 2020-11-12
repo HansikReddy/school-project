@@ -5,9 +5,9 @@ import "react-datepicker/dist/react-datepicker.css";
 
 export default function Register() {
 	return (
-	<div class="container">
+		<div class="container" style={{ 'max-width': '1300px' }}>
 		<div class="card">
-			<h5 class="card-header">Add Student</h5>
+			<h5 class="card-header text-center">ADD STUDENT</h5>
 			<div class="card-body">
 				<form class="needs-validation" novalidate>
 					<div class="form-row">

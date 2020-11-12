@@ -5,143 +5,105 @@ import Axios from "axios";
 import { useHistory } from "react-router-dom";
 import Modal from "react-modal";
 
-import { Button, Card, CardBody, CardGroup, Col, Container, Form, Input, InputGroup, Row } from 'reactstrap';
-
 export default function Login() {
 
 	const history = useHistory();
 	const [email, setEmail] = useState("");
 	const [password, setPassword] = useState("");
 	const [loginStatus, setLoginStatus] = useState("");
-	const [errors, setErrors] = useState("")
-	const [emailError, setEmailError] = useState("")
-	const [passwordError, setPasswordError] = useState("")
 	const [isOpen, setIsOpen] = useState(false);
-	const [resetPasswordEmail, setresetPasswordEmail]=useState("")
-	const [resetPasswordEmailError,setresetPasswordEmailError]=useState("")
+	const [resetPasswordEmail, setresetPasswordEmail] = useState("")
 
 	Axios.defaults.withCredentials = true;
 
-	const validEmailRegex = RegExp(/^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i);
-
-	const login = () => {
-
+	const login = (event) => {
+		event.preventDefault();
 		if (email.length <= 0 || password.length <= 0) {
 			toast.error("🦄 Please Enter The Email Id and Password, Then Try Again");
 			return;
 		}
-
 		Axios.post("http://localhost:3001/login", {
 			email: email,
 			password: password
 		}).then((response) => {
-			toast.success("🦄 Logged In Successfully !!!");
+			console.log(response);
+			toast.success(response.data.message);
 			if (response.data.message) {
 				setLoginStatus(response.data.message);
 			}
 			history.push("/Dashboard");
+		}).catch(error => {
+			toast.error(error.response.data.message)
+			return error;
 		});
 	};
-
-	useEffect(() => {
-		Axios.get("http://localhost:3001/login").then((response) => {
-			if (response.data.loggedIn == true) {
-				setLoginStatus(response.data.user.loggedInUserFullName);
-			}
-		});
-	}, []);
 
 	function toggleModal() {
 		setIsOpen(!isOpen);
 	}
 
-	function resetPassword(){
+	function resetPassword() {
 		Axios.post("http://localhost:3001/api/forgotpass", {
 			email: resetPasswordEmail
 		}).then((response) => {
-			
+
 		});
 	}
 
-	const handleChange = (event) => {
-		event.preventDefault();
-		const { name, value } = event.target;
-		let errors = setErrors;
-		switch (name) {
-			case 'email':
-				if (validEmailRegex.test(value)) {
-					setEmailError("")
-					setEmail(value)
-				} else {
-					setEmailError("Please enter a valid Email");
-				}
-				break;
-			case 'password':
-				if (value.length < 8) {
-					setPasswordError("Password must be 8 characters long!")
-				} else {
-					setPasswordError('');
-					setPassword(value)
-				}
-				break;
-			default:
-				break;
-		}
-	};
-
 	return (
-		<div className="app flex-row align-items-center">
-			<Container>
-				<Row className="justify-content-center">
-					<Col md="9" lg="7" xl="6">
-						<CardGroup>
-							<Card className="p-2">
-								<CardBody>
-									<Form>
-										<div className="row" className="mb-2 pageheading">
-											<div className="col-sm-12 btn btn-primary">
-												Login Credentials
-                                            </div>
-										</div>
-										{setEmailError.length > 0 ? <span className='error'>{emailError}</span> : null}
-										<InputGroup className="mb-3">
-											<Input type="text" onChange={handleChange} name="email" placeholder="Enter Email" noValidate />
-										</InputGroup>
-										{setPasswordError.length > 0 ? <span className='error'>{passwordError}</span> : null}
-										<InputGroup className="mb-4">
-											<Input type="password" name="password" onChange={handleChange} placeholder="Enter Password" />
-										</InputGroup>
-										<p>Forgot Password? click <a onClick={toggleModal} href="#">here</a> to reset</p>
-										<Button onClick={login} color="success" block>LOGIN</Button>
-									</Form>
-								</CardBody>
-							</Card>
-						</CardGroup>
-					</Col>
-				</Row>
-			</Container>
-			<Modal
-				isOpen={isOpen}
-				onRequestClose={toggleModal}
-				contentLabel="Rest Password"
-				className="mymodal"
-				overlayClassName="myoverlay"
-				closeTimeoutMS={500}
-			>
-				<Form>
-					<div className="row" className="mb-2 pageheading">
-						<div className="col-sm-12 btn btn-primary">
-							Reset Password
-                        </div>
+		<div class="container" style={{ 'max-width': '1300px' }}>
+			<div class="card ">
+				<h5 class="card-header text-center">LOGIN TO YOUR ACCOUNT</h5>
+				<div class="card-body">
+					<div class="row">
+						<div class="col-6">
+							<div>
+								<img class="card-img-top" src="https://i.pinimg.com/originals/3f/3d/d9/3f3dd9219f7bb1c9617cf4f154b70383.jpg" alt="Card image" width="250" height="250"></img>
+							</div>
+						</div>
+						<div class="col-6">
+							<form onSubmit={login}>
+								<div class="form-group">
+									<label for="exampleInputEmail1">Email address</label>
+									<input type="email" class="form-control" id="exampleInputEmail1" onChange={(e) => { setEmail(e.target.value); }} aria-describedby="emailHelp" placeholder="Enter email" required />
+								</div>
+								<div class="form-group">
+									<label for="exampleInputPassword1">Password</label>
+									<input type="password" class="form-control" id="exampleInputPassword1" onChange={(e) => { setPassword(e.target.value); }} placeholder="Password" required />
+								</div>
+								<div class="form-group">
+									Forgot Password? click <a onClick={toggleModal} href="#">here</a> to reset the password
+								</div>
+								<button type="submit" class="btn btn-primary">LOGIN</button>
+							</form>
+						</div>
 					</div>
-					{setEmailError.length > 0 ? <span className='error'>{emailError}</span> : null}
-					<InputGroup className="mb-3">
-						<Input type="text" name="passwordResetEmail" onChange={(e) => { setresetPasswordEmail(e.target.value); }} placeholder="Enter Email" noValidate />
-					</InputGroup>
-					<Button onClick={resetPassword} color="success" block>Send Email</Button>
-					<Button onClick={toggleModal} color="secondary" block>Close</Button>
-				</Form>
-			</Modal>
+				</div>
+				<Modal isOpen={isOpen} onRequestClose={toggleModal} contentLabel="Rest Password" className="mymodal" overlayClassName="myoverlay" closeTimeoutMS={1}>
+					<div class="modal-dialog" role="document">
+						<div class="modal-content">
+							<div class="modal-header">
+								<h5 class="modal-title" id="exampleModalLabel">RESET PASSWORD</h5>
+								<button type="button" class="close" onClick={toggleModal}>
+									<span aria-hidden="true">&times;</span>
+								</button>
+							</div>
+							<div class="modal-body">
+								<form>
+									<div class="form-group">
+										<label for="exampleInputEmail1">Email address</label>
+										<input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email" required />
+									</div>
+								</form>
+							</div>
+							<div class="modal-footer">
+								<button type="button" class="btn btn-secondary" onClick={toggleModal} >CLOSE</button>
+								<button type="button" class="btn btn-primary">CONFIRM</button>
+							</div>
+						</div>
+					</div>
+				</Modal>
+			</div>
 		</div>
 	);
 }

@@ -1,95 +1,95 @@
 .App {
-  text-align: center;
+	text-align: center;
 }
 
 .App-logo {
-  height: 40vmin;
-  pointer-events: none;
+	height: 40vmin;
+	pointer-events: none;
 }
 
 @media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+	.App-logo {
+		animation: App-logo-spin infinite 20s linear;
+	}
 }
 
 .App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+	background-color: #282c34;
+	min-height: 100vh;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	font-size: calc(10px + 2vmin);
+	color: white;
 }
 
 .App-link {
-  color: #61dafb;
+	color: #61dafb;
 }
 
 @keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
-} 
+	from {
+		transform: rotate(0deg);
+	}
 
-.navheader{      
-  margin-top: 10px;      
-  color :black !important;      
-  background-color: #b3beca!important      
-}    
-  
-.PageHeading      
-{      
-  margin-top: 10px;      
-  margin-bottom: 10px;      
-  color :black !important;      
-}    
+	to {
+		transform: rotate(360deg);
+	}
+}
 
-ul,li {
-  margin:0;
-  padding:0;
-  }
+.navheader {
+	margin-top: 10px;
+	color: black !important;
+	background-color: #b3beca !important
+}
 
-  .error {
-    color:#db2269;
-    font-size: 0.900em;
-    display: relative;
-  }
+.PageHeading {
+	margin-top: 10px;
+	margin-bottom: 10px;
+	color: black !important;
+}
 
-  .fullName {
-    margin-right: 1%;
-  }
+ul, li {
+	margin: 0;
+	padding: 0;
+}
 
-  .required-field::before {
-    content: "*";
-    color: red;
-    float: right;
-  }
+.error {
+	color: #db2269;
+	font-size: 0.900em;
+	display: relative;
+}
 
-  .mymodal {
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 30%;
-    border: 1px solid #ccc;
-    background: white;
-    overflow: auto;
-    border-radius: 4px;
-    outline: none;
-    padding: 20px;
-  }
-  
-  .myoverlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background-color: rgba(0, 0, 0, 0.75);
-  }
+.fullName {
+	margin-right: 1%;
+}
+
+.required-field::before {
+	content: "*";
+	color: red;
+	float: right;
+}
+
+.mymodal {
+	position: fixed;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	width: 30%;
+	border: 1px solid #ccc;
+	background: white;
+	overflow: auto;
+	border-radius: 4px;
+	outline: none;
+	padding: 20px;
+}
+
+.myoverlay {
+	position: fixed;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	background-color: rgba(0, 0, 0, 0.75);
+}

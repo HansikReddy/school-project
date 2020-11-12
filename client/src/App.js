@@ -10,7 +10,7 @@ import StudentsList from './StudentsList'
 import AddStudent from './AddStudent'
 
 import UpdateStudent from './UpdateStudent'
-import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom';
+import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
@@ -51,7 +51,7 @@ function App() {
 	}
 	return (
 		<Router>
-			<div className="container">
+			<div className="container" style={{ 'max-width': '1500px' }}>
 				<br/>
 				<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
 					<a class="navbar-brand" href="#">
