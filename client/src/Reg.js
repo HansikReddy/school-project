@@ -1,7 +1,8 @@
-import React, { useState } from 'react';
+﻿import React, { useState } from 'react';
 import { Button, Card, CardBody,  Col, Container, Form, Input, InputGroup,  Row } from 'reactstrap';
 import Axios from "axios";
 import DatePicker from "react-datepicker";
+import { toast } from 'react-toastify';
 
 import "react-datepicker/dist/react-datepicker.css";
 
@@ -30,7 +31,7 @@ export default function Register() {
 
     const register = () => {
         if (firstName.length <= 0 || parentName.length <= 0 || parentContactNumber.length <= 0 || email.length <= 0 || password.length <= 0 || DOB == null) {
-            alert("Please enter the required fields !!!")
+            toast.error("🦄 Please Enter The Required Fields And Try Again !!!");
             return;
         } else {
             Axios.post("http://localhost:3001/register", {
@@ -43,7 +44,7 @@ export default function Register() {
                 DOB: DOB,
                 selectedFile: selectedFile
             }).then((response) => {
-                console.log(response);
+                toast.success("🦄 Please Enter The Required Fields And Try Again !!!")
             });
         }
     };
@@ -52,7 +53,7 @@ export default function Register() {
         if (selectedDate != null && selectedDate != undefined) {
             var selectedDOB = new Date(selectedDate);
             var today = new Date();
-            if ((today.getFullYear() - selectedDOB.getFullYear()) <= 5) {
+            if ((today.getFullYear() - selectedDOB.getFullYear()) <= 4) {
                 setDOB(null)
                 setDOBError("Minimum of 5 years is required for registration");
             } else {
@@ -155,22 +156,22 @@ export default function Register() {
                 <Form>
                   <div className="row" className="mb-2 pageheading">
                     <div className="col-sm-12 btn btn-primary">
-                      Sign Up
+                      Student Details
                      </div>
                   </div>
                   {setFirstNameError.length > 0 ? <span className='error'>{firstNameError}</span> : null}
-                  <InputGroup className="mb-3">Enter your first Name <div class="required-field"></div> &nbsp;
-                  <Input name="firstname" type="text" onChange={handleChange} />
+                  <InputGroup className="mb-3">First Name <div class="required-field"></div> &nbsp;
+                    <Input name="firstname" type="text" aria-label="Small" onChange={handleChange} />
                   </InputGroup>
 
                   {setLastNameError.length > 0 ? <span className='error'>{lastNameError}</span> : null}
-                  <InputGroup className="mb-3"> Enter your Last Name &nbsp;
+                                  <InputGroup className="mb-3">Last Name &nbsp;&nbsp;
                     <Input name="lastname" type="text" onChange={handleChange} />
                   </InputGroup>
 
                                   <div className="mb-3">
                                       {setDOBError.length > 0 ? <span className='error'>{DOBError}</span> : null}
-                                      <InputGroup className="mb-3"> Select Date of Birth <div class="required-field"></div> &nbsp;
+                                      <InputGroup className="mb-3"> Date of Birth <div class="required-field"></div> &nbsp;
                     <DatePicker name="DOB" showPopperArrow={false} placeholderText="Select Date" selected={DOB} onChange={ date => dateOfBirthValidator(date)} showYearDropdown showMonthDropdown minDate={new Date().setFullYear(new Date().getFullYear() - 25)} maxDate={new Date()} showDisabledMonthNavigation />
                     </InputGroup>
                   </div>
@@ -188,20 +189,20 @@ export default function Register() {
                   </InputGroup>
 
                   {setEmailError.length > 0 ? <span className='error'>{emailError}</span> : null}
-                  <InputGroup className="mb-4">Enter your Email <div class="required-field"></div> &nbsp;
+                  <InputGroup className="mb-4">Email Id <div class="required-field"></div> &nbsp;
                     <Input name="email" type="email" onChange={handleChange} />
                   </InputGroup>
 
                   {setPasswordError.length > 0 ? <span className='error'>{passwordError}</span> : null}
-                  <InputGroup className="mb-4">Enter your Password <div class="required-field"></div> &nbsp;
+                  <InputGroup className="mb-4">Password <div class="required-field"></div> &nbsp;
                     <Input name="password" type="password" onChange={handleChange} />
                   </InputGroup>
 
                   {setConfirmPasswordError.length > 0 ? <span className='error'>{confirmPasswordError}</span> : null}
-                  <InputGroup className="mb-4">Confirm your Password <div class="required-field"></div> &nbsp;
+                  <InputGroup className="mb-4">Confirm Password <div class="required-field"></div> &nbsp;
                     <Input name="password1" type="password" onChange={handleChange} />
                   </InputGroup>
-                  <Button onClick={register} color="success" block>Create Account</Button>
+                  <Button onClick={register} color="success" block>Add Student</Button>
                 </Form>
               </CardBody>
             </Card>
