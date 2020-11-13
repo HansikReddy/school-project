@@ -28,8 +28,8 @@ export default function Login() {
 		}).then((response) => {
 			console.log(response);
 			toast.success(response.data.message);
-			if (response.data.message) {
-				setLoginStatus(response.data.message);
+			if (response.data.loggedIn) {
+				setLoginStatus(true);
 			}
 			history.push("/Dashboard");
 		}).catch(error => {

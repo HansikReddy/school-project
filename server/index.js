@@ -22,6 +22,30 @@ const randomString=length=>{
     return text;
 }
 
+var months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+
+function calculateAge(dateString) {
+	var diff_ms = Date.now() - dateString.getTime();
+	var age_dt = new Date(diff_ms);
+
+	return Math.abs(age_dt.getUTCFullYear() - 1970);
+}
+
+function convertDate(date_str) {
+	var formattedDate = "";
+	if (date_str != undefined && date_str != null) {
+		var dateOfBirth = new Date(date_str);
+		var month = dateOfBirth.getMonth() + 1
+		formattedDate = dateOfBirth.getFullYear() + "-" + month + "-" + dateOfBirth.getDate();
+		temp_date = formattedDate.split("-");
+
+		return temp_date[2] + " " + months[Number(temp_date[1]) - 1] + " " + temp_date[0];
+	} else {
+		return formattedDate;
+	}
+	
+}
+
 app.use(express.json());
 app.use(
 	cors({
@@ -100,7 +124,8 @@ app.post("/login", (req, res) => {
 							loggedInUserFullName: result[0].FIRST_NAME + " " + result[0].LAST_NAME,
 							loggedInUserEmail: result[0].EMAIL,
 							loggedInUserId: result[0].ID,
-							message: "Logged-In Successfully !!!"
+							message: "Logged-In Successfully !!!",
+							loggedIn: true
 						}
 						req.session.user = userObject;
 						//res.send(userObject);
@@ -143,7 +168,9 @@ app.get("/students", (req, res) => {
 						DOB: row["DOB"],
 						PARENT_NAME: row["PARENT_NAME"],
 						PARENT_CONTACT_NO: row["PARENT_CONTACT_NO"],
-						EDIT: "<a class='btn btn-info btn-sm' href=UpdateStudent?id=" + row["ID"] + "> EDIT </a> &nbsp; <button class='btn btn-danger btn-sm' onClick={this.showAlert}> DELETE </button>"
+						EDIT: "<a class='btn btn-info btn-sm' href=UpdateStudent?id=" + row["ID"] + "> EDIT </a> &nbsp; <button class='btn btn-danger btn-sm' onClick={this.showAlert}> DELETE </button>",
+						AGE: calculateAge(row["DOB"]) + " Year(s)",
+						DATE_FORMATTED: convertDate(row["DOB"])
 					})
 					count++;
 				})
