@@ -60,10 +60,11 @@ class StudentsList extends React.Component {
                 { title: "First Name", data: "FIRST_NAME" },
                 { title: "Last Name", data: "LAST_NAME" },
                 { title: "Email Id", data: "EMAIL" },
-                { title: "Date Of Birth", data: "DOB" },
+                { title: "Date Of Birth", data: "DATE_FORMATTED" },
+                { title: "AGE", data: "AGE" },
                 { title: "Parent Name", data: "PARENT_NAME" },
                 { title: "Parent Contact No", data: "PARENT_CONTACT_NO" },
-                { title: "Action", data: "EDIT" },
+                { title: "Action", data: "EDIT" }
             ]
         });
     }
