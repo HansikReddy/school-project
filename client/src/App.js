@@ -21,6 +21,7 @@ function App() {
 	var addStudentClass = location.includes("/AddStudent") ? "nav-item active" : "nav-item";
 	var listStudentsClass = location.includes("/StudentsList") ? "nav-item active" : "nav-item";
 	var listStudentsClass = location.includes("/StudentsList") ? "nav-item active" : "nav-item";
+	var UploadClass = location.includes("/UploadClass") ? "nav-item active" : "nav-item";
 	var loginCLass = location.includes("/Login") ? "nav-item active" : "nav-item";
 	var signupCLass = location.includes("/Signup") ? "nav-item active" : "nav-item";
 	var signupCLass = location.includes("/Signup") ? "nav-item active" : "nav-item";
@@ -75,6 +76,11 @@ function App() {
 								? <li class={listStudentsClass}><a class="nav-link" href="/StudentsList">Students List</a></li>
 								: null
 							}
+							{loginStatus
+								?<li class={UploadClass}><a class="nav-link" href="">Upload</a> </li>
+								: null
+							}
+
 						</ul>
 						<ul class="navbar-nav">
 							{!loginStatus
