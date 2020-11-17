@@ -159,10 +159,12 @@ export default function Register() {
                       Student Details
                      </div>
                   </div>
+
                   {setFirstNameError.length > 0 ? <span className='error'>{firstNameError}</span> : null}
                   <InputGroup className="mb-3">First Name <div class="required-field"></div> &nbsp;
                     <Input name="firstname" type="text" aria-label="Small" onChange={handleChange} />
-                  </InputGroup>
+                    </InputGroup>
+        
 
                   {setLastNameError.length > 0 ? <span className='error'>{lastNameError}</span> : null}
                                   <InputGroup className="mb-3">Last Name &nbsp;&nbsp;

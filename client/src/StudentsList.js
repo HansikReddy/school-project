@@ -26,7 +26,7 @@ class StudentsList extends React.Component {
     }
 
     /*handleClose = () => {
-        
+       
     }*/
 
     handleClose = function () {
@@ -44,7 +44,7 @@ class StudentsList extends React.Component {
     }
 
     redirectCall() {
-        alert("Sheik")
+        alert("hans")
     }
 
     alertFunction = function () {
@@ -56,7 +56,7 @@ class StudentsList extends React.Component {
         this.$el.DataTable({
             data: this.state.students,
             columns: [
-                { title: "#", data: "SL"},
+                //{ title: "#", data: "SL"},
                 { title: "First Name", data: "FIRST_NAME" },
                 { title: "Last Name", data: "LAST_NAME" },
                 { title: "Email Id", data: "EMAIL" },
@@ -65,20 +65,21 @@ class StudentsList extends React.Component {
                 { title: "Parent Name", data: "PARENT_NAME" },
                 { title: "Parent Contact No", data: "PARENT_CONTACT_NO" },
                 { title: "Action", data: "EDIT" }
-            ]
+            ],
+            lengthMenu: [[5,10,15,-1], [5,10,15, "All"]]
         });
     }
 
     render() {
         return (
             <div className="container" style={{ 'max-width': '1400px' }}>
-                <div className="jumbotron text-center bg-sky">
-                    <h3>Students List</h3>
+                <div class="col-sm-12 btn btn-secondary">
+                    <h3 style={{ textAlign: 'center' }}> STUDENTS LIST</h3>
                 </div>
-                
+                <br/><br/>
                     <table id="studentsList" className="display" ref={(el) => (this.el = el)}>
                     </table>
-                
+               
                 <BootBox
                     message="Do you want to Continue?"
                     show={this.state.show}
@@ -86,7 +87,7 @@ class StudentsList extends React.Component {
                     onNoClick={this.handleClose}
                     onClose={this.handleClose} />
             </div>
-        );     
+        );    
     }
 }
 export default StudentsList;
