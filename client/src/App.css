@@ -1,6 +1,10 @@
 .App {
 	text-align: center;
 }
+.form-group.required .control-label:after {
+	content:"*";
+	color:red;
+  }
 
 .App-logo {
 	height: 40vmin;

@@ -20,7 +20,7 @@ var dashboardClass = location.includes("/Dashboard") ? "nav-item active" : "nav-
 var addStudentClass = location.includes("/AddStudent") ? "nav-item active" : "nav-item";
 var listStudentsClass = location.includes("/StudentsList") ? "nav-item active" : "nav-item";
 var listStudentsClass = location.includes("/StudentsList") ? "nav-item active" : "nav-item";
-var UploadClass = location.includes("/UploadClass") ? "nav-item active" : "nav-item";
+// var UploadClass = location.includes("/UploadClass") ? "nav-item active" : "nav-item";
 var loginCLass = location.includes("/Login") ? "nav-item active" : "nav-item";
 var signupCLass = location.includes("/Signup") ? "nav-item active" : "nav-item";
 var signupCLass = location.includes("/Signup") ? "nav-item active" : "nav-item";
@@ -74,10 +74,10 @@ return (
 ? <li class={listStudentsClass}><a class="nav-link" href="/StudentsList">Students List</a></li>
 : null
 }
-{loginStatus
+{/* {loginStatus
 ?<li class={UploadClass}><a class="nav-link" href="">Upload</a> </li>
 : null
-}
+} */}
 
 </ul>
 <ul class="navbar-nav">
@@ -104,7 +104,7 @@ return (
 <Switch>
 <Route exact path='/Login' component={Login} />
 <Route path='/Signup' component={Reg} />
-<Route path='/Upload' component={Upload} />
+{/* <Route path='/Upload' component={Upload} /> */}
 <Route path='/StudentsList' component={StudentsList} />
 <Route path='/AddStudent' component={AddStudent} />
 </Switch>
